@@ -22,7 +22,7 @@ const reducer = (state: BudgetState, action: BudgetAction): BudgetState => {
   switch (action.type) {
     case 'SET_TRANSACTIONS':
       const warnings = checkBudgetWarnings(action.payload, {
-        Gıda: 1000,
+        Yemek: 1000,
         Eğlence: 500,
       });
       return { ...state, transactions: action.payload, warnings };
@@ -30,7 +30,7 @@ const reducer = (state: BudgetState, action: BudgetAction): BudgetState => {
     case 'ADD_TRANSACTION':
       const newTransactions = [...state.transactions, action.payload];
       const updatedWarnings = checkBudgetWarnings(newTransactions, {
-        Gıda: 1000,
+        Yemek: 1000,
         Eğlence: 500,
       });
       return {

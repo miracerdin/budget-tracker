@@ -79,7 +79,7 @@ export default function AddTransactionForm({
       toast({
         title: 'Transaction Added',
         description: 'Your transaction has been successfully added.',
-        action: <ToastAction altText="View Transactions">Undo</ToastAction>,
+        className: 'bg-green-500 text-white',
       });
       onClose();
     } catch (error: unknown) {
@@ -87,6 +87,7 @@ export default function AddTransactionForm({
       toast({
         title: typedError.name,
         description: 'Failed to submit the form. Please try again.',
+        className: 'bg-red-500 text-white',
         action: <ToastAction altText="Try again">Undo</ToastAction>,
       });
     }
