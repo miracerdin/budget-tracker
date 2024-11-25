@@ -1,5 +1,6 @@
 <h2>Budget Tracker</h2>
-![Screenshot_70](https://github.com/user-attachments/assets/ae703494-f5fe-4b54-9caf-8a9bf0a53d72)<br>
+
+![Screenshot_70](https://github.com/user-attachments/assets/fa130de0-565f-4ab7-a521-d3c86946bbd7)
 
 ![Screenshot_71](https://github.com/user-attachments/assets/92fbd4ab-cdfe-44d3-9c2d-21ff4e553283)
 
