@@ -15,7 +15,7 @@ const TransactionList = () => {
   const { transactions, isDarkMode } = useContext(BudgetContext);
 
   return (
-    <Table>
+    <Table className="border-2">
       <TableCaption style={isDarkMode ? { color: 'white' } : {}}>
         A list of your recent invoices.
       </TableCaption>
