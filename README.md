@@ -1,4 +1,4 @@
-![Screenshot_74](https://github.com/user-attachments/assets/dc1b447c-9e3e-4e3a-a458-8001f95c554f)<h2>Budget Tracker</h2>
+<h2>Budget Tracker</h2>
 
 ![Screenshot_74](https://github.com/user-attachments/assets/8d67a310-6a2c-466c-9062-bc778e472c90)
 
