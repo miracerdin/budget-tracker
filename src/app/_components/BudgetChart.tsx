@@ -14,7 +14,6 @@ import React from 'react';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 const BudgetChart = ({ data }: { data: any }) => {
-  console.log(' chart data', data);
   const chartData = {
     labels: data.map((d: any) => d.category),
     datasets: [

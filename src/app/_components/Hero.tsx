@@ -4,14 +4,14 @@ import Image from 'next/image';
 
 export default function Hero() {
   return (
-    <section className="bg-gray-50 flex- item-center flex-col">
+    <section className="bg-gray-50 flex- item-center flex-col dark:bg-gray-800">
       <div className="flex flex-col overflow-hidden">
         <ContainerScroll
           titleComponent={
             <>
               <h1 className="text-4xl font-semibold text-black dark:text-white">
                 Menage your budget <br />
-                <span className="text-4xl md:text-[6rem] font-bold text-blue-800 mt-1 leading-none">
+                <span className="text-4xl md:text-[6rem] dark:text-white font-bold text-blue-800 mt-1 leading-none">
                   Financial tracker
                 </span>
               </h1>

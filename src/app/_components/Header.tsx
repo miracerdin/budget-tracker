@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { AddNewTransaction } from '@/app/_components/AddNewTransaction';
 import { usePathname } from 'next/navigation';
+import DarkModeToggle from '@/app/_components/DarkMode';
 
 export default function Header() {
   const pathname = usePathname();
@@ -17,6 +18,7 @@ export default function Header() {
       </div>
 
       <div className={'flex items-center gap-4'}>
+        <DarkModeToggle />
         {pathname === '/dashboard' && <AddNewTransaction />}
         <Link href="/dashboard">
           <Button className="rounded-full">Dashboard</Button>

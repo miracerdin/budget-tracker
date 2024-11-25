@@ -12,12 +12,14 @@ import {
 } from '@/components/ui/table';
 
 const TransactionList = () => {
-  const { transactions } = useContext(BudgetContext);
+  const { transactions, isDarkMode } = useContext(BudgetContext);
 
   return (
     <Table>
-      <TableCaption>A list of your recent invoices.</TableCaption>
-      <TableHeader>
+      <TableCaption style={isDarkMode ? { color: 'white' } : {}}>
+        A list of your recent invoices.
+      </TableCaption>
+      <TableHeader style={isDarkMode ? { color: 'red' } : {}}>
         <TableRow>
           <TableHead>Açıklama</TableHead>
           <TableHead>Tip</TableHead>
