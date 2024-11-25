@@ -53,7 +53,6 @@ const BudgetChart = ({ data }: { data: any }) => {
       const canvas = chartRef.current.canvas;
       if (canvas) {
         const imgData = canvas.toDataURL('image/png');
-        console.log('imageData', imgData);
         const doc = new jsPDF();
         doc.addImage(imgData, 'PNG', 10, 10, 180, 160);
         doc.save('budget-chart.pdf');
