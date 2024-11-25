@@ -232,9 +232,13 @@ export default function AddTransactionForm({
             value={newLimit || ''}
             onChange={(e) => setNewLimit(Number(e.target.value))}
           />
-          <Button onClick={handleSetLimit}>Set Limit</Button>
+          <Button className="text-white" onClick={handleSetLimit}>
+            Set Limit
+          </Button>
         </div>
-        <Button type="submit">Submit</Button>
+        <Button className="text-white" type="submit">
+          Submit
+        </Button>
       </form>
     </Form>
   );
