@@ -21,7 +21,7 @@ export default function Header() {
         <DarkModeToggle />
         {pathname === '/dashboard' && <AddNewTransaction />}
         <Link href="/dashboard">
-          <Button className="rounded-full">Dashboard</Button>
+          <Button className="rounded-full text-white">Dashboard</Button>
         </Link>
       </div>
     </header>
