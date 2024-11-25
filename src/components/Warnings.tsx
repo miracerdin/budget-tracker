@@ -1,22 +1,46 @@
-"use client";
-import React, { useContext } from "react";
-import {BudgetContext} from "@/context/BudgetContext";
+'use client';
+import React, { useContext, useEffect, useState } from 'react';
+import { BudgetContext } from '@/context/BudgetContext';
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 const Warnings = () => {
-    const { warnings } = useContext(BudgetContext);
+  const { warnings } = useContext(BudgetContext);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-    if (!warnings.length) return null;
+  useEffect(() => {
+    if (warnings.length > 0) {
+      setIsDialogOpen(true);
+    }
+  }, [warnings]);
 
-    return (
-        <div className="bg-yellow-100 text-yellow-800 p-4 rounded">
-            <h2>Uyarılar</h2>
-            <ul>
-                {warnings.map((warning, index) => (
-                    <li key={index}>{warning}</li>
-                ))}
-            </ul>
-        </div>
-    );
+  if (!warnings.length) return null;
+  return (
+    <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Uyarılar</AlertDialogTitle>
+          <ul>
+            {warnings.map((warning, index) => (
+              <AlertDialogDescription key={index}>
+                {warning}{' '}
+              </AlertDialogDescription>
+            ))}
+          </ul>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Close</AlertDialogCancel>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
 };
 
 export default Warnings;

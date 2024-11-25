@@ -1,43 +1,42 @@
-"use client"; // Ensure client-side rendering
-import styles from "./TransactionList.module.css";
-import React, { useEffect, useState } from "react";
-
-interface Transaction {
-    id: string;
-    description: string;
-    amount: number;
-    date: string;
-    category: string;
-}
+'use client';
+import React, { useContext } from 'react';
+import { BudgetContext } from '@/context/BudgetContext';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 const TransactionList = () => {
-    const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const { transactions } = useContext(BudgetContext);
 
-    // Fetch transactions from localStorage when the component mounts
-    useEffect(() => {
-        const storedTransactions = JSON.parse(localStorage.getItem("transactions") || "[]");
-        setTransactions(storedTransactions);
-    }, []);
-
-    return (
-        <div>
-            <h2>Transaction List</h2>
-            {transactions.length === 0 ? (
-                <p>No transactions available.</p>
-            ) : (
-                <ul>
-                    {transactions.map((transaction) => (
-                        <li key={transaction.id} className={styles["transaction-item"]}>
-                            <p><strong>Description:</strong> {transaction.description}</p>
-                            <p><strong>Amount:</strong> {transaction.amount} TL</p>
-                            <p><strong>Category:</strong> {transaction.category}</p>
-                            <p><strong>Date:</strong> {new Date(transaction.date).toLocaleString()}</p>
-                        </li>
-                    ))}
-                </ul>
-            )}
-        </div>
-    );
+  return (
+    <Table>
+      <TableCaption>A list of your recent invoices.</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Açıklama</TableHead>
+          <TableHead>Tip</TableHead>
+          <TableHead>Kategori</TableHead>
+          <TableHead>Miktar</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {transactions.map((transaction) => (
+          <TableRow key={transaction.id}>
+            <TableCell>{transaction.description}</TableCell>
+            <TableCell>{transaction.category}</TableCell>
+            <TableCell>{transaction.date}</TableCell>
+            <TableCell>{transaction.amount} TL</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  );
 };
 
 export default TransactionList;
