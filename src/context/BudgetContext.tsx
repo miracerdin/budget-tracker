@@ -7,42 +7,50 @@ const initialState: BudgetState = {
   transactions: [],
   warnings: [],
   isDarkMode: false,
+  categoryLimits: {}, // Kullanıcı tarafından ayarlanabilir limitler
   addTransaction: () => {},
   clearWarnings: () => {},
   toggleDarkMode: () => {},
+  setCategoryLimit: () => {},
 };
 
 type BudgetAction =
   | { type: 'SET_TRANSACTIONS'; payload: Transaction[] }
   | { type: 'ADD_TRANSACTION'; payload: Transaction }
   | { type: 'CLEAR_WARNINGS' }
-  | { type: 'TOGGLE_DARK_MODE' };
+  | { type: 'TOGGLE_DARK_MODE' }
+  | {
+      type: 'SET_CATEGORY_LIMIT';
+      payload: { category: string; limit: number };
+    };
 
 const reducer = (state: BudgetState, action: BudgetAction): BudgetState => {
   switch (action.type) {
-    case 'SET_TRANSACTIONS':
-      const warnings = checkBudgetWarnings(action.payload, {
-        Yemek: 1000,
-        Eğlence: 500,
-      });
+    case 'SET_TRANSACTIONS': {
+      const warnings = checkBudgetWarnings(
+        action.payload,
+        state.categoryLimits
+      );
       return { ...state, transactions: action.payload, warnings };
+    }
 
-    case 'ADD_TRANSACTION':
+    case 'ADD_TRANSACTION': {
       const newTransactions = [...state.transactions, action.payload];
-      const updatedWarnings = checkBudgetWarnings(newTransactions, {
-        Yemek: 1000,
-        Eğlence: 500,
-      });
+      const updatedWarnings = checkBudgetWarnings(
+        newTransactions,
+        state.categoryLimits
+      );
       return {
         ...state,
         transactions: newTransactions,
         warnings: updatedWarnings,
       };
+    }
 
     case 'CLEAR_WARNINGS':
       return { ...state, warnings: [] };
 
-    case 'TOGGLE_DARK_MODE':
+    case 'TOGGLE_DARK_MODE': {
       const newDarkModeState = !state.isDarkMode;
 
       if (newDarkModeState) {
@@ -54,6 +62,31 @@ const reducer = (state: BudgetState, action: BudgetAction): BudgetState => {
       }
 
       return { ...state, isDarkMode: newDarkModeState };
+    }
+
+    case 'SET_CATEGORY_LIMIT': {
+      const { category, limit } = action.payload;
+      const updatedCategoryLimits = {
+        ...state.categoryLimits,
+        [category]: limit,
+      };
+
+      const updatedWarnings = checkBudgetWarnings(
+        state.transactions,
+        updatedCategoryLimits
+      );
+
+      localStorage.setItem(
+        'categoryLimits',
+        JSON.stringify(updatedCategoryLimits)
+      );
+
+      return {
+        ...state,
+        categoryLimits: updatedCategoryLimits,
+        warnings: updatedWarnings,
+      };
+    }
 
     default:
       return state;
@@ -72,6 +105,9 @@ export const BudgetProvider: React.FC<{ children: ReactNode }> = ({
       localStorage.getItem('transactions') || '[]'
     );
     const savedDarkMode = localStorage.getItem('isDarkMode') === 'true';
+    const savedCategoryLimits = JSON.parse(
+      localStorage.getItem('categoryLimits') || '{}'
+    );
 
     if (savedTransactions.length > 0) {
       dispatch({ type: 'SET_TRANSACTIONS', payload: savedTransactions });
@@ -80,6 +116,19 @@ export const BudgetProvider: React.FC<{ children: ReactNode }> = ({
     if (savedDarkMode) {
       document.documentElement.classList.add('dark');
       dispatch({ type: 'TOGGLE_DARK_MODE' });
+    }
+
+    dispatch({
+      type: 'SET_CATEGORY_LIMIT',
+      payload: { category: '', limit: 0 }, // Default ayarları yükler
+    });
+    if (Object.keys(savedCategoryLimits).length > 0) {
+      Object.entries(savedCategoryLimits).forEach(([category, limit]) => {
+        dispatch({
+          type: 'SET_CATEGORY_LIMIT',
+          payload: { category, limit: Number(limit) },
+        });
+      });
     }
   }, []);
 
@@ -95,6 +144,10 @@ export const BudgetProvider: React.FC<{ children: ReactNode }> = ({
     dispatch({ type: 'TOGGLE_DARK_MODE' });
   };
 
+  const setCategoryLimit = (category: string, limit: number) => {
+    dispatch({ type: 'SET_CATEGORY_LIMIT', payload: { category, limit } });
+  };
+
   return (
     <BudgetContext.Provider
       value={{
@@ -102,6 +155,7 @@ export const BudgetProvider: React.FC<{ children: ReactNode }> = ({
         addTransaction,
         clearWarnings,
         toggleDarkMode,
+        setCategoryLimit,
       }}
     >
       {children}

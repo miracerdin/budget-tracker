@@ -30,7 +30,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { BudgetContext } from '@/context/BudgetContext';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { ToastAction } from '@/components/ui/toast';
 import { v4 as uuidv4 } from 'uuid';
@@ -48,8 +48,10 @@ export default function AddTransactionForm({
 }: {
   onClose: () => void;
 }) {
-  const { addTransaction } = useContext(BudgetContext);
+  const { addTransaction, setCategoryLimit } = useContext(BudgetContext);
   const { toast } = useToast();
+  const [newLimit, setNewLimit] = useState<number | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -57,6 +59,18 @@ export default function AddTransactionForm({
       date: new Date(),
     },
   });
+
+  const handleSetLimit = () => {
+    if (selectedCategory && newLimit !== null) {
+      setCategoryLimit(selectedCategory, newLimit);
+      toast({
+        title: 'Budget Limit Updated',
+        description: `Limit for "${selectedCategory}" updated to ${newLimit}.`,
+        className: 'bg-green-500 text-white',
+      });
+      onClose();
+    }
+  };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -199,6 +213,27 @@ export default function AddTransactionForm({
             </FormItem>
           )}
         />
+        <div className="flex items-center gap-4">
+          <Select onValueChange={(value) => setSelectedCategory(value)}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select a category" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Eğlence">Eğlence</SelectItem>
+              <SelectItem value="Seyahat">Seyahat</SelectItem>
+              <SelectItem value="Yemek">Yemek</SelectItem>
+              <SelectItem value="Kira">Kira</SelectItem>
+              <SelectItem value="Faturalar">Faturalar</SelectItem>
+            </SelectContent>
+          </Select>
+          <Input
+            type="number"
+            placeholder="Enter budget limit"
+            value={newLimit || ''}
+            onChange={(e) => setNewLimit(Number(e.target.value))}
+          />
+          <Button onClick={handleSetLimit}>Set Limit</Button>
+        </div>
         <Button type="submit">Submit</Button>
       </form>
     </Form>
