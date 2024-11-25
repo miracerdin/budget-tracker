@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { format } from 'date-fns';
 
 const TransactionList = () => {
   const { transactions, isDarkMode } = useContext(BudgetContext);
@@ -32,7 +33,9 @@ const TransactionList = () => {
           <TableRow key={transaction.id}>
             <TableCell>{transaction.description}</TableCell>
             <TableCell>{transaction.category}</TableCell>
-            <TableCell>{transaction.date}</TableCell>
+            <TableCell>
+              {transaction.date ? format(transaction.date, 'PPP') : ''}
+            </TableCell>
             <TableCell>{transaction.amount} TL</TableCell>
           </TableRow>
         ))}
