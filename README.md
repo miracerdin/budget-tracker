@@ -1,9 +1,10 @@
-<h2>Budget Tracker</h2>
+![Screenshot_74](https://github.com/user-attachments/assets/dc1b447c-9e3e-4e3a-a458-8001f95c554f)<h2>Budget Tracker</h2>
 
-![Screenshot_70](https://github.com/user-attachments/assets/fa130de0-565f-4ab7-a521-d3c86946bbd7)
+![Screenshot_74](https://github.com/user-attachments/assets/8d67a310-6a2c-466c-9062-bc778e472c90)
 
-![Screenshot_71](https://github.com/user-attachments/assets/92fbd4ab-cdfe-44d3-9c2d-21ff4e553283)
+![Screenshot_72](https://github.com/user-attachments/assets/5d24c2d5-334a-4c72-b7fd-ee6f7211b4ae)
 
+![Screenshot_73](https://github.com/user-attachments/assets/1a47a9f5-ab19-4659-9ca6-9aa629f9f10e)
 
 ## Getting Started
 
