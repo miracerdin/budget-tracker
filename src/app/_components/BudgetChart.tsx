@@ -15,20 +15,24 @@ import { Button } from '@/components/ui/button';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
-const BudgetChart = ({ data }: { data: any }) => {
-  const chartRef = useRef<HTMLCanvasElement>(null); // Reference to the chart instance
+const BudgetChart = ({ data }: { data: Partial<Transaction>[] }) => {
+  const chartRef = useRef(null); // Reference to the chart instance
 
   const chartData = {
-    labels: data.map((d: any) => d.category),
+    labels: data.map((d) => d.category),
     datasets: [
       {
         label: 'Gelir-Giderler',
-        data: data.map((d: any) => d.amount),
-        backgroundColor: data.map((d: any) =>
-          d.amount < 0 ? 'rgba(255, 99, 132, 0.2)' : 'rgba(75, 192, 192, 0.2)'
+        data: data.map((d) => d.amount),
+        backgroundColor: data.map((d) =>
+          (d?.amount ?? 0) < 0
+            ? 'rgba(255, 99, 132, 0.2)'
+            : 'rgba(75, 192, 192, 0.2)'
         ),
-        borderColor: data.map((d: any) =>
-          d.amount < 0 ? 'rgba(255, 99, 132, 1)' : 'rgba(75, 192, 192, 1)'
+        borderColor: data.map((d) =>
+          (d?.amount ?? 0) < 0
+            ? 'rgba(255, 99, 132, 1)'
+            : 'rgba(75, 192, 192, 1)'
         ),
         borderWidth: 1,
       },
@@ -47,9 +51,10 @@ const BudgetChart = ({ data }: { data: any }) => {
     },
   };
 
-  // Function to generate the PDF
   const generatePDF = () => {
     if (chartRef.current) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
       const canvas = chartRef.current.canvas;
       if (canvas) {
         const imgData = canvas.toDataURL('image/png');

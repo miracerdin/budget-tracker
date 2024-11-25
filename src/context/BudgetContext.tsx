@@ -3,18 +3,22 @@ import { createContext, useReducer, ReactNode, useEffect } from 'react';
 import { checkBudgetWarnings } from '../lib/utils';
 import { BudgetState } from '@/types/BudgetState';
 
-// Başlangıç durumu
 const initialState: BudgetState = {
   transactions: [],
   warnings: [],
-  isDarkMode: false, // Dark mode için yeni alan
+  isDarkMode: false,
   addTransaction: () => {},
   clearWarnings: () => {},
-  toggleDarkMode: () => {}, // Dark mode yönetimi için yeni metot
+  toggleDarkMode: () => {},
 };
 
-// Reducer fonksiyonu
-const reducer = (state: BudgetState, action: any): BudgetState => {
+type BudgetAction =
+  | { type: 'SET_TRANSACTIONS'; payload: Transaction[] }
+  | { type: 'ADD_TRANSACTION'; payload: Transaction }
+  | { type: 'CLEAR_WARNINGS' }
+  | { type: 'TOGGLE_DARK_MODE' };
+
+const reducer = (state: BudgetState, action: BudgetAction): BudgetState => {
   switch (action.type) {
     case 'SET_TRANSACTIONS':
       const warnings = checkBudgetWarnings(action.payload, {
@@ -41,7 +45,6 @@ const reducer = (state: BudgetState, action: any): BudgetState => {
     case 'TOGGLE_DARK_MODE':
       const newDarkModeState = !state.isDarkMode;
 
-      // Tailwind dark mode sınıflarını yönet
       if (newDarkModeState) {
         document.documentElement.classList.add('dark');
         localStorage.setItem('isDarkMode', 'true');
@@ -57,31 +60,26 @@ const reducer = (state: BudgetState, action: any): BudgetState => {
   }
 };
 
-// Context oluşturma
 export const BudgetContext = createContext<BudgetState>(initialState);
 
-// Provider bileşeni
 export const BudgetProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    // LocalStorage'dan verileri yükle
     const savedTransactions = JSON.parse(
       localStorage.getItem('transactions') || '[]'
     );
     const savedDarkMode = localStorage.getItem('isDarkMode') === 'true';
 
-    // Transactions varsa dispatch et
     if (savedTransactions.length > 0) {
       dispatch({ type: 'SET_TRANSACTIONS', payload: savedTransactions });
     }
 
-    // Dark mode başlangıç durumu
     if (savedDarkMode) {
       document.documentElement.classList.add('dark');
-      dispatch({ type: 'TOGGLE_DARK_MODE' }); // Başlangıç durumu
+      dispatch({ type: 'TOGGLE_DARK_MODE' });
     }
   }, []);
 

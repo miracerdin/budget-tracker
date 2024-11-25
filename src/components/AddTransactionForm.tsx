@@ -82,9 +82,10 @@ export default function AddTransactionForm({
         action: <ToastAction altText="View Transactions">Undo</ToastAction>,
       });
       onClose();
-    } catch (error) {
+    } catch (error: unknown) {
+      const typedError = error as Error;
       toast({
-        title: 'Error',
+        title: typedError.name,
         description: 'Failed to submit the form. Please try again.',
         action: <ToastAction altText="Try again">Undo</ToastAction>,
       });
@@ -115,7 +116,6 @@ export default function AddTransactionForm({
           )}
         />
 
-        {/* Amount Field */}
         <FormField
           control={form.control}
           name="amount"
