@@ -1,4 +1,4 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<h2>Budget Tracker</h2>
 ![Screenshot_70](https://github.com/user-attachments/assets/ae703494-f5fe-4b54-9caf-8a9bf0a53d72)
 ![Screenshot_71](https://github.com/user-attachments/assets/92fbd4ab-cdfe-44d3-9c2d-21ff4e553283)
 
